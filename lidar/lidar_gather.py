@@ -27,9 +27,10 @@ try:
         angle = scan.angle
         dist = scan.distance
 
-        # Package with json and send
-        message = json.dumps([angle, dist]).encode('utf-8')
-        client.publish(topic="lidar_data", payload=message, qos=0, retain=False)
+        if scan["quality"] > 10:
+            # Package with json and send
+            message = json.dumps([angle, dist]).encode('utf-8')
+            client.publish(topic="lidar_data", payload=message, qos=0, retain=False)
 
         # Break after N scans, for testing
         # if count == 1000: break
