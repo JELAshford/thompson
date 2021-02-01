@@ -18,7 +18,7 @@ def lidar_callback(client, userdata, message):
 def animate(i):
     global plot_angle, plot_dist, lidar_data
 
-    if lidar_data[0] != plot_angle[-1][0]:
+    if lidar_data[0] != plot_angle[-1]:
         plot_angle.append(lidar_data[0])
         plot_dist.append(lidar_data[1])
 
@@ -41,7 +41,7 @@ lidar_data = []
 # Wrap the plotting in the client loop
 client.loop_start()
 
-plot_angle, plot_dist = [], []
+plot_angle, plot_dist = [0], [0]
 ax = plt.subplot(111, projection='polar')
 ani = FuncAnimation(plt.gcf(), animate, interval=1)
 plt.show()
