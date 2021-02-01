@@ -14,3 +14,5 @@ client.connect(broker_url, broker_port)
 # Subscribe to lidar_data stream
 client.subscribe("lidar_data", qos=0)
 client.message_callback_add("lidar_data", lidar_callback)
+
+client.loop_forever()

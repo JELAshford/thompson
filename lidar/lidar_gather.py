@@ -28,10 +28,10 @@ for count, scan in enumerate(scan_generator()):
 
     # Package with json and send
     message = json.dumps([angle, dist]).encode('utf-8')
-    client.publish(topic="lidar", payload=message, qos=0, retain=False)
+    client.publish(topic="lidar_data", payload=message, qos=0, retain=False)
 
     # Break after N scans, for testing
-    if count == 1000: break
+    # if count == 1000: break
 
 lidar.stop()
 lidar.set_motor_pwm(0)
