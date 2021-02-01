@@ -1,5 +1,3 @@
-import numpy as np
-
 from pyrplidar import PyRPlidar
 import time
 
@@ -32,8 +30,6 @@ try:
             message = json.dumps([angle, dist]).encode('utf-8')
             client.publish(topic="lidar_data", payload=message, qos=0, retain=False)
 
-        # Break after N scans, for testing
-        # if count == 1000: break
 finally:
     lidar.stop()
     lidar.set_motor_pwm(0)
