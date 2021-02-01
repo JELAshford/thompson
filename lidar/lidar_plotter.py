@@ -24,7 +24,6 @@ def animate(i):
 
     # Re-create scatter
     ax.plot(plot_angle, plot_dist, 'r.')
-    ax.set_theta_direction(-1)
 
 # Connect to the Brain client
 broker_url, broker_port = "192.168.10.103", 1883
@@ -43,6 +42,8 @@ client.loop_start()
 
 plot_angle, plot_dist = [0], [0]
 ax = plt.subplot(111, projection='polar')
+ax.set_theta_direction(-1)
+
 ani = FuncAnimation(plt.gcf(), animate, interval=1)
 plt.show()
 
