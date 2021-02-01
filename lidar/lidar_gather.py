@@ -21,14 +21,9 @@ try:
     scan_generator = lidar.force_scan()
     for count, scan in enumerate(scan_generator()):
         print(count, scan)
-        # Extract the angle and distance
-        angle = scan.angle
-        dist = scan.distance
-
-        if scan.quality > 10:
-            # Package with json and send
-            message = json.dumps([angle, dist]).encode('utf-8')
-            client.publish(topic="lidar_data", payload=message, qos=0, retain=False)
+        # Package with json and send
+        message = json.dumps([scan.angle, scan.distance]).encode('utf-8')
+        client.publish(topic="lidar_data", payload=message, qos=0, retain=False)
 
 finally:
     lidar.stop()
