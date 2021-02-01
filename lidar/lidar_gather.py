@@ -18,21 +18,22 @@ broker_url, broker_port = "192.168.10.103", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
-# Run scan
-scan_generator = lidar.force_scan()
-for count, scan in enumerate(scan_generator()):
-    print(count, scan)
-    # Extract the angle and distance
-    angle = scan.angle
-    dist = scan.distance
+try: 
+    # Run scan
+    scan_generator = lidar.force_scan()
+    for count, scan in enumerate(scan_generator()):
+        print(count, scan)
+        # Extract the angle and distance
+        angle = scan.angle
+        dist = scan.distance
 
-    # Package with json and send
-    message = json.dumps([angle, dist]).encode('utf-8')
-    client.publish(topic="lidar_data", payload=message, qos=0, retain=False)
+        # Package with json and send
+        message = json.dumps([angle, dist]).encode('utf-8')
+        client.publish(topic="lidar_data", payload=message, qos=0, retain=False)
 
-    # Break after N scans, for testing
-    # if count == 1000: break
-
-lidar.stop()
-lidar.set_motor_pwm(0)
-lidar.disconnect()
+        # Break after N scans, for testing
+        # if count == 1000: break
+finally:
+    lidar.stop()
+    lidar.set_motor_pwm(0)
+    lidar.disconnect()
