@@ -19,7 +19,7 @@ def animate(i):
     global plot_angle, plot_dist, lidar_data
 
     if lidar_data[0] != plot_angle[-1]:
-        plot_angle.append(lidar_data[0])
+        plot_angle.append((lidar_data[0]/360)*(np.pi*2))
         plot_dist.append(lidar_data[1])
 
     # Re-create scatter
