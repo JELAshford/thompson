@@ -9,13 +9,13 @@ import paho.mqtt.client as mqtt
 import json
 
 
-def lidar_callback(client, userdata, message):
-    global lidar_data
-    lidar_data = json.loads(message.payload.decode())
-
-
 def request_scan():
     global lidar_data
+
+    def lidar_callback(client, userdata, message):
+        global lidar_data
+        lidar_data = json.loads(message.payload.decode())
+
     # Subscribe to lidar_data stream
     client.subscribe("lidar_batch", qos=0)
     client.message_callback_add("lidar_batch", lidar_callback)
