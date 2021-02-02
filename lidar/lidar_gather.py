@@ -64,6 +64,7 @@ client.connect(broker_url, broker_port)
 
 # Start the lidar scan
 lidar = PyRPlidar()
+lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
 lidar.set_motor_pwm(500)
 
 # Subscribe to request topic
