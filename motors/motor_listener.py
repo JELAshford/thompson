@@ -37,14 +37,14 @@ def PerformSpin(angle):
 # Function to drive a distance in meters
 def PerformDrive(speed, time):
     print(speed, time)
-    if speed < 0.0:
-        # Reverse drive
-        driveLeft  = -speed
-        driveRight = -speed
-    else:
-        # Forward drive
-        driveLeft  = speed
-        driveRight = speed
+    # if speed < 0.0:
+    # Reverse drive
+    #     driveLeft  = -speed
+    #     driveRight = -speed
+    # else:
+    #     # Forward drive
+    driveLeft  = speed
+    driveRight = speed
     # Perform the motion
     print(driveLeft, driveRight)
     PerformMove(driveLeft, driveRight, time)
