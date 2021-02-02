@@ -12,7 +12,6 @@ def run_scan(client, userdata, message):
     if request != "DEFAULT SCAN PLEASE":
         MAX_SAMPLES = request["MAX_SAMPLES"]
         SLEEP_TIME = request["SLEEP_TIME"]
-    print(MAX_SAMPLES, SLEEP_TIME)
     # Start the lidar scan
     lidar = PyRPlidar()
     lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
