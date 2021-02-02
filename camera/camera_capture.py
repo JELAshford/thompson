@@ -20,7 +20,7 @@ def get_image(client, userdata, message):
             data = np.fromstring(_stream, dtype=np.uint8).tolist()
             # Encode and Publish to the 
             message = json.dumps(data).encode('utf-8')
-            print(message)
+            # print(message)
             client.publish(topic="camera_feed", payload=message, qos=0, retain=False)
 
 
