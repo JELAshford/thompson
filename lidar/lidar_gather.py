@@ -8,6 +8,8 @@ def run_scan(client, userdata, message):
     request = json.loads(message.payload.decode())
     
     # Start the lidar scan
+    lidar = PyRPlidar()
+    lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
     lidar.set_motor_pwm(500)
     time.sleep(2)
 
@@ -33,13 +35,11 @@ def run_scan(client, userdata, message):
     
     # Stop the lidar
     lidar.set_motor_pwm(0)
+    lidar.stop()
+    lidar.disconnect()
 
 
 MAX_SAMPLES = 2000
-
-# Setup the lidar
-lidar = PyRPlidar()
-lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
 
 # Connect to the Brain client
 broker_url, broker_port = "192.168.10.103", 1883
@@ -50,8 +50,4 @@ client.connect(broker_url, broker_port)
 client.subscribe("lidar_request", qos=0)
 client.message_callback_add("lidar_request", run_scan)
 
-try:
-    client.loop_forever()
-finally:
-    lidar.stop()
-    lidar.disconnect()
+client.loop_forever()
