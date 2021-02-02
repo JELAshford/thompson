@@ -60,13 +60,13 @@ def move_moters(client, userdata, message):
         direction = command[1][0]
         speed = command[1][1]
         time = command[1][2]
-        PerformMove(direction * speed,  time)
+        PerformDrive(direction * speed,  time)
     return True
 
 
 # Movement settings (worked out from our MonsterBorg on carpet tiles)
 timeForward1m = 0.85                    # Number of seconds needed to move about 1 meter
-timeSpin360   = 1.10                    # Number of seconds needed to make a full left / right spin
+timeSpin360   = 1.8                    # Number of seconds needed to make a full left / right spin
 testMode = False                        # True to run the motion tests, False to run the normal sequence
 
 # Power settings
