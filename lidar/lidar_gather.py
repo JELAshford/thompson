@@ -52,7 +52,7 @@ def run_scan(client, userdata, message):
     client.publish(topic="lidar_batch", payload=message, qos=0, retain=False)
     
     # Stop the lidar
-    # lidar.set_motor_pwm(0)
+    lidar.set_motor_pwm(0)
     lidar.stop()
     # lidar.disconnect()
 
