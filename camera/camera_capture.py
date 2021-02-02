@@ -17,9 +17,9 @@ def get_image(client, userdata, message):
             stream.seek(0)
             _stream = stream.getvalue()
             # Convert stream to numpy format
-            data = np.fromstring(_stream, dtype=np.uint8).tolist()
+            data = np.frombuffer(_stream, dtype=np.uint8).tolist()
             # Encode and Publish to the 
-            message = json.dumps(data).encode('utf-8')
+            message = json.dumps(data) #.encode('utf-8')
             # print(message)
             client.publish(topic="camera_feed", payload=message, qos=0, retain=False)
 
