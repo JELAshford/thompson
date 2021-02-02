@@ -31,6 +31,8 @@ def request_scan():
     while not lidar_data:
         print('Waiting...', end="\r")
 
+    client.loop_stop()
+    
     return lidar_data
 
 
@@ -51,5 +53,3 @@ ax = plt.subplot(111, projection='polar')
 ax.plot(plot_angles, plot_dists, 'r.')
 ax.set_theta_direction(-1)
 plt.show()
-
-client.loop_stop()
