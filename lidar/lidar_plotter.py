@@ -10,8 +10,7 @@ import json
 
 def lidar_callback(client, userdata, message):
     global lidar_data
-    decoded_message = json.loads(message.payload.decode())
-    lidar_data = decoded_message
+    lidar_data = json.loads(message.payload.decode())
 
 # Connect to the Brain client
 broker_url, broker_port = "192.168.10.103", 1883
@@ -28,15 +27,17 @@ lidar_data = []
 # Wrap the plotting in the client loop
 client.loop_start()
 
-if lidar_data:
-    # Extract angles and dists
-    lidar_data = np.array(lidar_data)
-    plot_angles = lidar_data[0, :]; plot_dists = lidar_data[1, :]
-    plot_angles_rads = (plot_angles/360)*(np.pi*2)
-    
-    ax = plt.subplot(111, projection='polar')
-    ax.plot(plot_angles, plot_dists, 'r.')
-    ax.set_theta_direction(-1)
-    plt.show()
+while lidar_data:
+    print('Waiting...', end="\r")
+
+# Extract angles and dists
+lidar_data = np.array(lidar_data)
+plot_angles = lidar_data[:, 0]; plot_dists = lidar_data[:, 1]
+plot_angles_rads = (plot_angles/360)*(np.pi*2)
+
+ax = plt.subplot(111, projection='polar')
+ax.plot(plot_angles_rads, plot_dists, 'r.')
+ax.set_theta_direction(-1)
+plt.show()
 
 client.loop_stop()

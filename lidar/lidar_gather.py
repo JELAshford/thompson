@@ -36,7 +36,9 @@ try:
 
     # Package with json and send
     message = json.dumps(SAMPLE_BATCH).encode('utf-8')
-    client.publish(topic="lidar_data", payload=message, qos=0, retain=False)
+    client.publish(topic="lidar_data", payload=message, qos=0, retain=True)
+
+    # client.loop_forever()
 
 finally:
     lidar.stop()
