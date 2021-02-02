@@ -89,5 +89,5 @@ broker_url, broker_port = "192.168.10.100", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
-# repeat_grid()
-repeat_delay()
+repeat_grid()
+# repeat_delay()
