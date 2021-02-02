@@ -22,8 +22,8 @@ try:
     SAMPLE_BATCH = []
 
     # Run scan
-    # scan_generator = 
-    for count, scan in enumerate(lidar.start_scan()):
+    scan_generator = lidar.start_scan()
+    for count, scan in enumerate(scan_generator()):
         print(count, len(SAMPLE_BATCH), scan)
 
         # If scan meets quality standard, add to BATCH
