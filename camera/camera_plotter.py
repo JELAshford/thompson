@@ -16,7 +16,6 @@ def request_image(scan_parameters = "DEFAULT SCAN PLEASE"):
     def camera_callback(client, userdata, message):
         global camera_data
         camera_data = json.loads(message.payload.decode())
-        print(camera_data)
 
     # Subscribe to camera_data stream
     client.subscribe("camera_feed", qos=0)

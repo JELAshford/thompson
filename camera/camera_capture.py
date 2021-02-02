@@ -15,11 +15,8 @@ def get_image(client, userdata, message):
             camera.capture(output, 'rgb')
             print('Captured %dx%d image' % (
                     output.array.shape[1], output.array.shape[0]))            # Encode and Publish to the 
-            print(output.array)
             message = json.dumps(output.array.tolist()).encode('utf-8')
-            print(message)
             client.publish(topic="camera_feed", payload=message, qos=0, retain=False)
-
 
 
 # Connect to the Brain client
