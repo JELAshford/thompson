@@ -19,12 +19,12 @@ def request_scan():
     client.subscribe("lidar_batch", qos=0)
     client.message_callback_add("lidar_batch", lidar_callback)
 
-    # Wrap the plotting in the client loop
-    client.loop_start()
-
     # Publish a request to the lidar script
     message = json.dumps("SCAN PLEASE").encode('utf-8')
     client.publish(topic="lidar_request", payload=message, qos=0, retain=False)
+
+    # Wrap the plotting in the client loop
+    client.loop_start()
 
     # Wait for lidar data from the sensor
     lidar_data = []
@@ -32,7 +32,7 @@ def request_scan():
         print('Waiting...', end="\r")
 
     client.loop_stop()
-    
+
     return lidar_data
 
 
