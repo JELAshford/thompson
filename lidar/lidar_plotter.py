@@ -15,6 +15,7 @@ def lidar_callback(client, userdata, message):
 
 
 def request_scan():
+    global lidar_data
     # Subscribe to lidar_data stream
     client.subscribe("lidar_batch", qos=0)
     client.message_callback_add("lidar_batch", lidar_callback)
