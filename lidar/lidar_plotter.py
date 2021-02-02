@@ -37,26 +37,28 @@ def request_scan():
     return lidar_data
 
 
+def repeat_grid(ncol=2, nrow=2):
+    """Create grid of multiple plots"""
+    _, ax = plt.subplots(ncol, nrow, subplot_kw={'projection': 'polar'})
+    for x in range(nrow):
+        for y in range(ncol):
+            # Request the scan
+            scan_data = request_scan()
+            # Extract angles and dists
+            scan_data = np.array(scan_data)
+            plot_dists = scan_data[:, 1]
+            plot_angles = (scan_data[:, 0]/360)*(np.pi*2)
+            # Add to correct axis
+            ax[y, x].plot(plot_angles, plot_dists, 'r.')
+            ax[y, x].set_theta_direction(-1)
+    # Show plot
+    plt.tight_layout()
+    plt.show()
+
+
 # Connect to the broker
 broker_url, broker_port = "192.168.10.103", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
-# Create multiple plots
-fig, ax = plt.subplots(2, 2, subplot_kw={'projection': 'polar'})
-
-for x in range(2):
-    for y in range(2):
-        # Request the scan
-        scan_data = request_scan()
-
-        # Extract angles and dists
-        scan_data = np.array(scan_data)
-        plot_dists = scan_data[:, 1]
-        plot_angles = (scan_data[:, 0]/360)*(np.pi*2)
-
-        # ax = plt.subplot(111, projection='polar')
-        ax[x, y].plot(plot_angles, plot_dists, 'r.')
-        ax[x, y].set_theta_direction(-1)
-plt.tight_layout()
-plt.show()
+repeat_grid()
