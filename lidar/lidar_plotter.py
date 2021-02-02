@@ -10,7 +10,7 @@ import paho.mqtt.client as mqtt
 import json
 
 
-def request_scan():
+def request_scan(scan_parameters = "DEFAULT SCAN PLEASE"):
     global lidar_data
 
     def lidar_callback(client, userdata, message):
@@ -22,7 +22,7 @@ def request_scan():
     client.message_callback_add("lidar_batch", lidar_callback)
 
     # Publish a request to the lidar script
-    message = json.dumps("SCAN PLEASE").encode('utf-8')
+    message = json.dumps(scan_parameters).encode('utf-8')
     client.publish(topic="lidar_request", payload=message, qos=0, retain=False)
 
     # Run loop to wait for data
@@ -44,7 +44,7 @@ def repeat_grid(ncol=2, nrow=2):
     for x in range(nrow):
         for y in range(ncol):
             # Request the scan
-            scan_data = request_scan()
+            scan_data = request_scan(SCAN_PARAMS)
             # Extract angles and dists
             scan_data = np.array(scan_data)
             plot_dists = scan_data[:, 1]
@@ -61,7 +61,7 @@ def repeat_delay():
 
     def animate(i):
         # Request the scan
-        scan_data = request_scan()
+        scan_data = request_scan(SCAN_PARAMS)
         # Extract angles and dists
         scan_data = np.array(scan_data)
         plot_dists = scan_data[:, 1]    
@@ -71,7 +71,7 @@ def repeat_delay():
         ax.plot(plot_angles, plot_dists, 'r.')
         ax.set_theta_direction(-1)
         ax.set_ylim(0, 6000)
-    
+
     # Wrap the plotting in the client loop
     client.loop_start()
 
@@ -81,6 +81,8 @@ def repeat_delay():
 
     client.loop_stop()
 
+
+SCAN_PARAMS = {"MAX_SAMPLES": 1000, "SLEEP_TIME": 2}
 
 # Connect to the broker
 broker_url, broker_port = "192.168.10.100", 1883

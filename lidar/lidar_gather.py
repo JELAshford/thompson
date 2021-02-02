@@ -7,11 +7,17 @@ import json
 def run_scan(client, userdata, message):
     request = json.loads(message.payload.decode())
     
+    MAX_SAMPLES = 1000
+    SLEEP_TIME = 2
+    if request != "DEFAULT SCAN PLEASE":
+        MAX_SAMPLES = request["MAX_SAMPLES"]
+        SLEEP_TIME = request["SLEEP_TIME"]
+
     # Start the lidar scan
     lidar = PyRPlidar()
     lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
     lidar.set_motor_pwm(500)
-    time.sleep(2)
+    time.sleep(SLEEP_TIME)
 
     # Storage for scan data
     SAMPLE_BATCH = []
@@ -37,8 +43,6 @@ def run_scan(client, userdata, message):
     lidar.stop()
     lidar.disconnect()
 
-
-MAX_SAMPLES = 1000
 
 # Connect to the Brain client
 broker_url, broker_port = "192.168.10.100", 1883
