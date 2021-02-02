@@ -24,7 +24,7 @@ try:
     # Run scan
     scan_generator = lidar.force_scan()
     for count, scan in enumerate(scan_generator()):
-        print(count, scan)
+        print(count, len(SAMPLE_BATCH), scan)
 
         # If scan meets quality standard, add to BATCH
         if scan.quality > 10:
