@@ -82,7 +82,7 @@ def repeat_delay():
     client.loop_stop()
 
 
-SCAN_PARAMS = {"MAX_SAMPLES": 500, "SLEEP_TIME": 0}
+SCAN_PARAMS = {"MAX_SAMPLES": 1000, "SLEEP_TIME": 0}
 
 # Connect to the broker
 broker_url, broker_port = "192.168.10.100", 1883
