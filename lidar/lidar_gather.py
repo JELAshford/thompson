@@ -19,7 +19,6 @@ def run_scan(client, userdata, message):
     # Run scan
     scan_generator = lidar.start_scan()
     for count, scan in enumerate(scan_generator()):
-        print(count, len(SAMPLE_BATCH), scan)
 
         # If scan meets quality standard, add to BATCH
         if scan.quality > 10:

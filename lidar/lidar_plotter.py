@@ -24,7 +24,7 @@ def request_scan():
     message = json.dumps("SCAN PLEASE").encode('utf-8')
     client.publish(topic="lidar_request", payload=message, qos=0, retain=False)
 
-    # Wrap the plotting in the client loop
+    # Run loop to wait for data
     client.loop_start()
 
     # Wait for lidar data from the sensor
