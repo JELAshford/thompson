@@ -18,8 +18,8 @@ client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
 # Subscribe to lidar_data stream
-client.subscribe("lidar_data", qos=0)
-client.message_callback_add("lidar_data", lidar_callback)
+client.subscribe("lidar_batch", qos=0)
+client.message_callback_add("lidar_batch", lidar_callback)
 
 # Storage for lidar data
 lidar_data = []
