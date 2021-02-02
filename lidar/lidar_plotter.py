@@ -2,6 +2,7 @@
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pylab as plt
+from matplotlib.animation import FuncAnimation
 
 import numpy as np
 
@@ -56,9 +57,32 @@ def repeat_grid(ncol=2, nrow=2):
     plt.show()
 
 
+def repeat_delay():
+
+    def animate(i):
+        # Request the scan
+        scan_data = request_scan()
+        # Extract angles and dists
+        scan_data = np.array(scan_data)
+        plot_dists = scan_data[:, 1]    
+        plot_angles = (scan_data[:, 0]/360)*(np.pi*2)
+        # Re-create scatter
+        ax.plot(plot_angles, plot_dists, 'r.')
+    
+    # Wrap the plotting in the client loop
+    client.loop_start()
+
+    ax = plt.subplot(111, projection='polar')
+    ax.set_theta_direction(-1)
+    ani = FuncAnimation(plt.gcf(), animate, interval=1)
+    plt.show()
+
+    client.loop_stop()
+
 # Connect to the broker
 broker_url, broker_port = "192.168.10.103", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
-repeat_grid()
+# repeat_grid()
+repeat_delay()
