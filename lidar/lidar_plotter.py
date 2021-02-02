@@ -52,6 +52,7 @@ def repeat_grid(ncol=2, nrow=2):
             # Add to correct axis
             ax[y, x].plot(plot_angles, plot_dists, 'r.')
             ax[y, x].set_theta_direction(-1)
+            ax[y, x].set_ylim(0, 6000)
     # Show plot
     plt.tight_layout()
     plt.show()
