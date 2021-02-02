@@ -13,7 +13,6 @@ def run_scan(client, userdata, message):
         MAX_SAMPLES = request["MAX_SAMPLES"]
         SLEEP_TIME = request["SLEEP_TIME"]
     # Start the lidar scan
-    # lidar = PyRPlidar()
     lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
     lidar.set_motor_pwm(500)
     # time.sleep(SLEEP_TIME)
@@ -32,20 +31,6 @@ def run_scan(client, userdata, message):
         # Break if reached the maximum number of samples
         if len(SAMPLE_BATCH) > MAX_SAMPLES:
             break
-    
-    # lidar.stop()
-    # lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
-    # scan_generator = lidar.start_scan()
-    # for scan in scan_generator():
-
-    #     # If scan meets quality standard, add to BATCH
-    #     if scan.quality > 10:
-    #         SAMPLE_BATCH.append([scan.angle, scan.distance])
-
-    #     # Break if reached the maximum number of samples
-    #     if len(SAMPLE_BATCH) > MAX_SAMPLES:
-    #         break
-
 
     # Package with json and send
     message = json.dumps(SAMPLE_BATCH).encode('utf-8')
@@ -54,7 +39,6 @@ def run_scan(client, userdata, message):
     # Stop the lidar
     lidar.set_motor_pwm(0)
     lidar.stop()
-    # lidar.disconnect()
 
 
 # Connect to the Brain client
