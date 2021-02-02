@@ -1,5 +1,6 @@
 # Read in pictures from the HQ camera and stream over the mqqt topics
 from picamera import PiCamera
+import picamera.array
 import io, os
 
 import numpy as np
@@ -9,17 +10,12 @@ import json
 
 def get_image(client, userdata, message):
 
-    with PiCamera() as camera:
-        camera.rotation = 180
-        stream = io.BytesIO()
-        for _ in camera.capture_continuous(stream, 'jpeg', use_video_port=True):
-            # return current frame
-            stream.seek(0)
-            _stream = stream.getvalue()
-            # Convert stream to numpy format
-            data = np.frombuffer(_stream, dtype=np.uint8).tolist()
-            # Encode and Publish to the 
-            message = json.dumps(data) #.encode('utf-8')
+    with picamera.PiCamera() as camera:
+        with picamera.array.PiRGBArray(camera) as output:
+            camera.capture(output, 'rgb')
+            print('Captured %dx%d image' % (
+                    output.array.shape[1], output.array.shape[0]))            # Encode and Publish to the 
+            message = json.dumps(output.array).encode('utf-8')
             # print(message)
             client.publish(topic="camera_feed", payload=message, qos=0, retain=False)
 
