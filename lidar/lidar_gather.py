@@ -33,7 +33,8 @@ def run_scan(client, userdata, message):
         if len(SAMPLE_BATCH) > MAX_SAMPLES:
             break
     
-    lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
+    lidar.stop()
+    # lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
     scan_generator = lidar.start_scan()
     for scan in scan_generator():
 
