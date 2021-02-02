@@ -31,7 +31,7 @@ try:
             SAMPLE_BATCH.append([scan.angle, scan.distance])
 
         # Break if reached the maximum number of samples
-        if len(SAMPLE_BATCH) >= MAX_SAMPLES:
+        if len(SAMPLE_BATCH) > MAX_SAMPLES:
             break
 
     # Package with json and send
