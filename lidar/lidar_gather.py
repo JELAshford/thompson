@@ -12,10 +12,11 @@ def run_scan(client, userdata, message):
     if request != "DEFAULT SCAN PLEASE":
         MAX_SAMPLES = request["MAX_SAMPLES"]
         SLEEP_TIME = request["SLEEP_TIME"]
+        
     # Start the lidar scan
     lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
     lidar.set_motor_pwm(500)
-    # time.sleep(SLEEP_TIME)
+    time.sleep(SLEEP_TIME)
 
     # Storage for scan data
     SAMPLE_BATCH = []
