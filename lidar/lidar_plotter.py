@@ -27,7 +27,7 @@ lidar_data = []
 # Wrap the plotting in the client loop
 client.loop_start()
 
-while lidar_data:
+while not lidar_data:
     print('Waiting...', end="\r")
 
 # Extract angles and dists
