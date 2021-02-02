@@ -32,11 +32,11 @@ while not lidar_data:
 
 # Extract angles and dists
 lidar_data = np.array(lidar_data)
-plot_angles = lidar_data[:, 0]; plot_dists = lidar_data[:, 1]
-plot_angles_rads = (plot_angles/360)*(np.pi*2)
+plot_dists = lidar_data[:, 1]
+plot_angles = (lidar_data[:, 0]/360)*(np.pi*2)
 
 ax = plt.subplot(111, projection='polar')
-ax.plot(plot_angles_rads, plot_dists, 'r.')
+ax.plot(plot_angles, plot_dists, 'r.')
 ax.set_theta_direction(-1)
 plt.show()
 
