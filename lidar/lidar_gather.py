@@ -6,9 +6,11 @@ import json
 
 def run_scan(client, userdata, message):
 
+    print(message)
+    print(message.payload.decode())
     request = json.loads(message.payload.decode())
     print(request)
-    
+
     # Storage for scan data
     SAMPLE_BATCH = []
 
