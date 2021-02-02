@@ -67,6 +67,7 @@ def repeat_delay():
         plot_dists = scan_data[:, 1]    
         plot_angles = (scan_data[:, 0]/360)*(np.pi*2)
         # Re-create scatter
+        ax.clear()
         ax.plot(plot_angles, plot_dists, 'r.')
     
     # Wrap the plotting in the client loop
