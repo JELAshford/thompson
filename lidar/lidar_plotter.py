@@ -42,15 +42,21 @@ broker_url, broker_port = "192.168.10.103", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
-# Request the scan
-scan_data = request_scan()
+# Create multiple plots
+fig, ax = plt.subplots(2, 2, subplot_kw={'projection': 'polar'})
 
-# Extract angles and dists
-scan_data = np.array(scan_data)
-plot_dists = scan_data[:, 1]
-plot_angles = (scan_data[:, 0]/360)*(np.pi*2)
+for x in range(2):
+    for y in range(2):
+        # Request the scan
+        scan_data = request_scan()
 
-ax = plt.subplot(111, projection='polar')
-ax.plot(plot_angles, plot_dists, 'r.')
-ax.set_theta_direction(-1)
+        # Extract angles and dists
+        scan_data = np.array(scan_data)
+        plot_dists = scan_data[:, 1]
+        plot_angles = (scan_data[:, 0]/360)*(np.pi*2)
+
+        # ax = plt.subplot(111, projection='polar')
+        ax[x, y].plot(plot_angles, plot_dists, 'r.')
+        ax[x, y].set_theta_direction(-1)
+plt.tight_layout()
 plt.show()
