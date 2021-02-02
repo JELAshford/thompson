@@ -38,7 +38,7 @@ def run_scan(client, userdata, message):
     lidar.disconnect()
 
 
-MAX_SAMPLES = 2000
+MAX_SAMPLES = 1000
 
 # Connect to the Brain client
 broker_url, broker_port = "192.168.10.103", 1883
