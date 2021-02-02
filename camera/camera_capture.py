@@ -16,8 +16,6 @@ def get_image(client, userdata, message):
         with picamera.array.PiRGBArray(camera) as output:
             camera.capture(output, 'rgb')
             print("Array Size: " + str(getsizeof(output.array)))
-            print('Captured %dx%d image' % (
-                    output.array.shape[1], output.array.shape[0]))            # Encode and Publish to the 
             message = json.dumps(output.array.tolist()).encode('utf-8')
             print("Message Size: " + str(getsizeof(message)))
             client.publish(topic="camera_feed", payload=message, qos=0, retain=False)
