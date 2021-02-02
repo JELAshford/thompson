@@ -4,6 +4,7 @@ import time
 import paho.mqtt.client as mqtt
 import json
 
+
 def run_scan(client, userdata, message):
     request = json.loads(message.payload.decode())
     
@@ -12,7 +13,7 @@ def run_scan(client, userdata, message):
     if request != "DEFAULT SCAN PLEASE":
         MAX_SAMPLES = request["MAX_SAMPLES"]
         SLEEP_TIME = request["SLEEP_TIME"]
-        
+
     # Start the lidar scan
     lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
     lidar.set_motor_pwm(500)
