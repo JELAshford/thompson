@@ -69,12 +69,13 @@ def repeat_delay():
         # Re-create scatter
         ax.clear()
         ax.plot(plot_angles, plot_dists, 'r.')
+        ax.set_theta_direction(-1)
+        ax.set_ylim(0, 6000)
     
     # Wrap the plotting in the client loop
     client.loop_start()
 
     ax = plt.subplot(111, projection='polar')
-    ax.set_theta_direction(-1)
     ani = FuncAnimation(plt.gcf(), animate, interval=1)
     plt.show()
 
