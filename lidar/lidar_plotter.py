@@ -12,7 +12,7 @@ def lidar_callback(client, userdata, message):
     global lidar_data
     lidar_data = json.loads(message.payload.decode())
 
-# Connect to the Brain client
+# Connect to the broker
 broker_url, broker_port = "192.168.10.103", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
@@ -21,12 +21,11 @@ client.connect(broker_url, broker_port)
 client.subscribe("lidar_batch", qos=0)
 client.message_callback_add("lidar_batch", lidar_callback)
 
-# Storage for lidar data
-lidar_data = []
-
 # Wrap the plotting in the client loop
 client.loop_start()
 
+# Wait for lidar data from the sensor
+lidar_data = []
 while not lidar_data:
     print('Waiting...', end="\r")
 
