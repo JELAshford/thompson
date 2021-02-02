@@ -1,0 +1,1 @@
+Infinite Loop -> Plotting and gathering code that runs on an infite loop. Message quality decays, and can't be plot as fast as generated

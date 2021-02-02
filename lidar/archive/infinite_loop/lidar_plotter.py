@@ -2,6 +2,7 @@
 import matplotlib
 matplotlib.use("TkAgg")
 import matplotlib.pylab as plt
+from matplotlib.animation import FuncAnimation
 
 import numpy as np
 
@@ -12,6 +13,17 @@ def lidar_callback(client, userdata, message):
     global lidar_data
     decoded_message = json.loads(message.payload.decode())
     lidar_data = decoded_message
+    # print(decoded_message)
+
+def animate(i):
+    global plot_angle, plot_dist, lidar_data
+
+    if lidar_data[0] != plot_angle[-1]:
+        plot_angle.append((lidar_data[0]/360)*(np.pi*2))
+        plot_dist.append(lidar_data[1])
+
+    # Re-create scatter
+    ax.plot(plot_angle, plot_dist, 'r.')
 
 # Connect to the Brain client
 broker_url, broker_port = "192.168.10.103", 1883
@@ -28,15 +40,11 @@ lidar_data = []
 # Wrap the plotting in the client loop
 client.loop_start()
 
-if lidar_data:
-    # Extract angles and dists
-    lidar_data = np.array(lidar_data)
-    plot_angles = lidar_data[0, :]; plot_dists = lidar_data[1, :]
-    plot_angles_rads = (plot_angles/360)*(np.pi*2)
-    
-    ax = plt.subplot(111, projection='polar')
-    ax.plot(plot_angles, plot_dists, 'r.')
-    ax.set_theta_direction(-1)
-    plt.show()
+plot_angle, plot_dist = [0], [0]
+ax = plt.subplot(111, projection='polar')
+ax.set_theta_direction(-1)
+
+ani = FuncAnimation(plt.gcf(), animate, interval=1)
+plt.show()
 
 client.loop_stop()
