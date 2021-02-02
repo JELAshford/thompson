@@ -13,10 +13,10 @@ def run_scan(client, userdata, message):
         MAX_SAMPLES = request["MAX_SAMPLES"]
         SLEEP_TIME = request["SLEEP_TIME"]
     # Start the lidar scan
-    # lidar = PyRPlidar()
-    # lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
+    lidar = PyRPlidar()
+    lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
     lidar.set_motor_pwm(500)
-    # time.sleep(SLEEP_TIME)
+    time.sleep(SLEEP_TIME)
 
     # Storage for scan data
     SAMPLE_BATCH = []
@@ -39,8 +39,8 @@ def run_scan(client, userdata, message):
     
     # Stop the lidar
     lidar.set_motor_pwm(0)
-    # lidar.stop()
-    # lidar.disconnect()
+    lidar.stop()
+    lidar.disconnect()
 
 
 # Connect to the Brain client
@@ -48,15 +48,8 @@ broker_url, broker_port = "192.168.10.100", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
-lidar = PyRPlidar()
-lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
-
 # Subscribe to request topic
 client.subscribe("lidar_request", qos=0)
 client.message_callback_add("lidar_request", run_scan)
 
-try:
-    client.loop_forever()
-finally:
-    lidar.stop()
-    lidar.disconnect()
+client.loop_forever()
