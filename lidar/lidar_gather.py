@@ -33,6 +33,18 @@ def run_scan(client, userdata, message):
         if len(SAMPLE_BATCH) > MAX_SAMPLES:
             break
 
+    scan_generator = lidar.start_scan()
+    for scan in scan_generator():
+
+        # If scan meets quality standard, add to BATCH
+        if scan.quality > 10:
+            SAMPLE_BATCH.append([scan.angle, scan.distance])
+
+        # Break if reached the maximum number of samples
+        if len(SAMPLE_BATCH) > MAX_SAMPLES:
+            break
+
+
     # Package with json and send
     message = json.dumps(SAMPLE_BATCH).encode('utf-8')
     client.publish(topic="lidar_batch", payload=message, qos=0, retain=False)
