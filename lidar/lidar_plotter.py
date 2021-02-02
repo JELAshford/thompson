@@ -79,6 +79,7 @@ def repeat_delay():
 
     client.loop_stop()
 
+
 # Connect to the broker
 broker_url, broker_port = "192.168.10.103", 1883
 client = mqtt.Client()
