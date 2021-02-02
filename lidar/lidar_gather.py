@@ -15,7 +15,7 @@ def run_scan(client, userdata, message):
     # Start the lidar scan
     # lidar = PyRPlidar()
     lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
-    # lidar.set_motor_pwm(500)
+    lidar.set_motor_pwm(500)
     # time.sleep(SLEEP_TIME)
 
     # Storage for scan data
