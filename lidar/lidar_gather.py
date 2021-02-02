@@ -22,7 +22,7 @@ try:
     SAMPLE_BATCH = []
 
     # Run scan
-    scan_generator = lidar.force_scan()
+    scan_generator = lidar.start_scan()
     for count, scan in enumerate(scan_generator()):
         print(count, len(SAMPLE_BATCH), scan)
 
@@ -37,8 +37,6 @@ try:
     # Package with json and send
     message = json.dumps(SAMPLE_BATCH).encode('utf-8')
     client.publish(topic="lidar_batch", payload=message, qos=0, retain=False)
-
-    # client.loop_forever()
 
 finally:
     lidar.stop()
