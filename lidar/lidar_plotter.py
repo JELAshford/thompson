@@ -23,7 +23,8 @@ def request_scan():
     client.loop_start()
 
     # Publish a request to the lidar script
-    client.publish(topic="lidar_request", payload="SCAN PLS", qos=0, retain=False)
+    message = json.dumps("SCAN PLEASE").encode('utf-8')
+    client.publish(topic="lidar_request", payload=message, qos=0, retain=False)
 
     # Wait for lidar data from the sensor
     lidar_data = []
