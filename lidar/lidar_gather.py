@@ -48,10 +48,10 @@ broker_url, broker_port = "192.168.10.100", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
-# Start the lidar scan
+# Create the lidar object to connect to
 lidar = PyRPlidar()
-lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
-lidar.set_motor_pwm(500)
+# lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
+# lidar.set_motor_pwm(500)
 
 # Subscribe to request topic
 client.subscribe("lidar_request", qos=0)
