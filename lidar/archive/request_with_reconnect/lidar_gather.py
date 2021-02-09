@@ -15,14 +15,15 @@ def run_scan(client, userdata, message):
         SLEEP_TIME = request["SLEEP_TIME"]
 
     # Start the lidar scan
-    # lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
-    # # lidar.set_motor_pwm(500)
-    # time.sleep(SLEEP_TIME)
+    lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
+    # lidar.set_motor_pwm(500)
+    time.sleep(SLEEP_TIME)
 
     # Storage for scan data
     SAMPLE_BATCH = []
 
     # Run scan
+    scan_generator = lidar.start_scan()
     for scan in scan_generator():
 
         # If scan meets quality standard, add to BATCH
@@ -39,7 +40,7 @@ def run_scan(client, userdata, message):
     
     # Stop the lidar
     # lidar.set_motor_pwm(0)
-    # lidar.stop()
+    lidar.stop()
 
 
 # Connect to the Brain client
@@ -51,7 +52,6 @@ client.connect(broker_url, broker_port)
 lidar = PyRPlidar()
 lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
 lidar.set_motor_pwm(500)
-scan_generator = lidar.start_scan()
 
 # Subscribe to request topic
 client.subscribe("lidar_request", qos=0)
