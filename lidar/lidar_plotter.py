@@ -86,7 +86,7 @@ def repeat_delay():
 SCAN_PARAMS = {"MAX_SAMPLES": 500, "SLEEP_TIME": 0}
 
 # Connect to the broker
-broker_url, broker_port = "192.168.10.100", 1883
+broker_url, broker_port = "192.168.1.230", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
