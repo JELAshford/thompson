@@ -25,7 +25,7 @@ try:
         # Run scan
         scan_generator = lidar.force_scan()
         for count, scan in enumerate(scan_generator()):
-            print(count, scan)
+            # print(count, scan)
             # Reset scan after a large number of scans with this generator
             if count > 5000: break
             # Package with json and send
