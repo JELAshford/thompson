@@ -41,6 +41,7 @@ def run_scan(client, userdata, message):
     # Stop the lidar
     # lidar.set_motor_pwm(0)
     # lidar.stop()
+    lidar.disconnect()
 
 
 # Connect to the Brain client
