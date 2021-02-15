@@ -53,7 +53,7 @@ client.connect(broker_url, broker_port)
 lidar = PyRPlidar()
 lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
 lidar.set_motor_pwm(500)
-lidar.disconnect()
+lidar.stop()
 
 # Subscribe to request topic
 client.subscribe("lidar_request", qos=0)
