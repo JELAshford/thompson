@@ -23,7 +23,7 @@ def run_scan(client, userdata, message):
     SAMPLE_BATCH = []
 
     # Run scan
-    scan_generator = lidar.start_scan()
+    scan_generator = lidar.lidar.start_scan_express(4)
     for scan in scan_generator():
 
         # If scan meets quality standard, add to BATCH
