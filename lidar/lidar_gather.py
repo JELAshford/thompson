@@ -15,8 +15,8 @@ def run_scan(client, userdata, message):
         SLEEP_TIME = request["SLEEP_TIME"]
 
     # Start the lidar scan
-    # lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
-    # lidar.set_motor_pwm(500)
+    lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
+    lidar.set_motor_pwm(500)
     # time.sleep(SLEEP_TIME)
 
     # Storage for scan data
@@ -39,8 +39,8 @@ def run_scan(client, userdata, message):
     client.publish(topic="lidar_batch", payload=message, qos=0, retain=False)
     
     # Stop the lidar
-    # lidar.set_motor_pwm(0)
-    # lidar.stop()
+    lidar.set_motor_pwm(0)
+    lidar.stop()
     lidar.disconnect()
 
 
@@ -51,8 +51,8 @@ client.connect(broker_url, broker_port)
 
 # Create the lidar object to connect to
 lidar = PyRPlidar()
-lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
-lidar.set_motor_pwm(500)
+# lidar.connect(port="/dev/ttyUSB0", baudrate=115200, timeout=3)
+# lidar.set_motor_pwm(500)
 
 # Subscribe to request topic
 client.subscribe("lidar_request", qos=0)
