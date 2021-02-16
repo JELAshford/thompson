@@ -32,10 +32,11 @@ def plot_callback(sender, data):
     plot_datay = get_data("plot_datay")
     add_scatter_series(
         "Plot", "Scan", plot_datax, plot_datay, 
-        weight=2, update_bounds=False
+        weight=2, outline=[0, 255, 0],
+        update_bounds=False
     )
 
-PLOT_BUFFER_SIZE = 500
+PLOT_BUFFER_SIZE = 400
 
 # Connect to the Brain client
 broker_url, broker_port = "192.168.43.210", 1883
@@ -47,7 +48,7 @@ client.subscribe("lidar_stream", qos=0)
 client.message_callback_add("lidar_stream", lidar_callback)
 
 with window("Real-Time Scan Plot", width=800, height=800):
-    add_plot("Plot", equal_aspects=True, yaxis_invert=True)
+    add_plot("Plot", equal_aspects=True, yaxis_invert=True, no_legend=True)
     add_data("plot_datax", [])
     add_data("plot_datay", [])
     set_render_callback(plot_callback)
