@@ -35,7 +35,7 @@ def plot_callback(sender, data):
         weight=2, update_bounds=False
     )
 
-PLOT_BUFFER_SIZE = 1000
+PLOT_BUFFER_SIZE = 500
 
 # Connect to the Brain client
 broker_url, broker_port = "192.168.43.210", 1883
