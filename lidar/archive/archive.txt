@@ -1,2 +1,0 @@
-Infinite Loop -> Plotting and gathering code that runs on an infite loop. Message quality decays, and can't be plot as fast as generated
-Single Run -> Plotter waits for a single fixed size batch from the gatherer
