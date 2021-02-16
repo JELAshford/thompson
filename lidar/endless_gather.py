@@ -30,7 +30,7 @@ try:
             if count > 5000: break
             # Package with json and send
             message = json.dumps([scan.angle, scan.distance]).encode('utf-8')
-            client.publish(topic="lidar_data", payload=message, qos=0, retain=False)
+            client.publish(topic="lidar_stream", payload=message, qos=0, retain=False)
         lidar.stop()
         lidar.disconnect()
 finally:

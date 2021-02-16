@@ -16,6 +16,7 @@ def lidar_callback(client, userdata, message):
     if new_data:
 
         print(new_data)
+        print(len(new_data))
         # updating plot data
         plot_datax = get_data("plot_datax")
         plot_datay = get_data("plot_datay")
@@ -47,8 +48,8 @@ client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
 # Subscribe to lidar_data stream
-client.subscribe("lidar_data", qos=0)
-client.message_callback_add("lidar_data", lidar_callback)
+client.subscribe("lidar_stream", qos=0)
+client.message_callback_add("lidar_stream", lidar_callback)
 
 with window("Tutorial", width=500, height=500):
     add_plot("Plot", height=-1)
