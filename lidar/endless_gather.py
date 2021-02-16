@@ -27,7 +27,7 @@ try:
         for count, scan in enumerate(scan_generator()):
             # print(count, scan)
             # Reset scan after a large number of scans with this generator
-            if count > 5000: break
+            # if count > 5000: break
             # Package with json and send
             message = json.dumps([scan.angle, scan.distance]).encode('utf-8')
             client.publish(topic="lidar_stream", payload=message, qos=0, retain=False)
