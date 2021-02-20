@@ -40,7 +40,6 @@ def parse_move_command(client, userdata, message):
     # Command Parameters: 
     #   1: Degrees                  [1, [90]]
     #   2: Direction, Speed, Time   [2, [1, 10, 2]]
-    print(f"Recieved: {command}")
     if command[0] == 1:
         rotation = command[1][0]
         PerformSpin(rotation)
