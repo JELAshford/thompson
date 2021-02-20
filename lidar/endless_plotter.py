@@ -19,6 +19,9 @@ def lidar_callback(client, userdata, message):
         if len(plot_datax) > PLOT_BUFFER_SIZE:
             plot_datax.pop(0); plot_datay.pop(0)
 
+        # Rotate plot 90 left
+        new_data[0] -= 90
+
         plot_datax.append(new_data[1] * cos(radians(new_data[0])))
         plot_datay.append(new_data[1] * sin(radians(new_data[0])))
 

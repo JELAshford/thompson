@@ -35,13 +35,13 @@ def PerformSpin(angle):
 
 
 # Function to drive a distance in meters
-def PerformDrive(speed, time):
-    print(speed, time)
-    driveLeft  = speed
-    driveRight = speed
-    # Perform the motion
-    print(driveLeft, driveRight)
-    PerformMove(driveLeft, driveRight, time)
+# def PerformDrive(speed, time):
+#     print(speed, time)
+#     driveLeft  = speed
+#     driveRight = speed
+#     # Perform the motion
+#     print(driveLeft, driveRight)
+#     PerformMove(driveLeft, driveRight, time)
 
 
 def move_moters(client, userdata, message):
@@ -54,11 +54,9 @@ def move_moters(client, userdata, message):
         rotation = command[1][0]
         PerformSpin(rotation)
     elif command[0] == 2:
-        direction = command[1][0]
-        speed = command[1][1]
+        speed = command[1][0] * command[1][1]
         time = command[1][2]
-        print(direction, speed, time)
-        PerformDrive(direction * speed,  time)
+        PerformMove(speed, speed, time)
     return True
 
 # Movement settings (worked out from our MonsterBorg on carpet tiles)
