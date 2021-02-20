@@ -41,6 +41,7 @@ def parse_move_command(client, userdata, message):
     #   1: Degrees                  [1, [90]]
     #   2: Direction, Speed, Time   [2, [1, 10, 2]]
     print(command)
+    print(command[0])
     if command[0] == 1:
         print('Rotating!')
         rotation = command[1][0]
