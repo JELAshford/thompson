@@ -7,8 +7,7 @@ broker_url, broker_port = "192.168.43.210", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
-# Wrap the plotting in the client loop
-
+# Wrap the commands issuing in a loop
 try:
     client.loop_start()
     while True:
