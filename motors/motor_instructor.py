@@ -36,7 +36,7 @@ def main_callback(sender, data):
     # Send command if one requested
     if command:
         print(command)
-        message = json.dumps(command).encode('utf-8')
+        message = json.dumps(eval(command)).encode('utf-8')
         client.publish(topic="motor_request", payload=message, qos=0, retain=False)
 
 
