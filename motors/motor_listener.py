@@ -34,17 +34,7 @@ def PerformSpin(angle):
     PerformMove(driveLeft, driveRight, numSeconds)
 
 
-# Function to drive a distance in meters
-# def PerformDrive(speed, time):
-#     print(speed, time)
-#     driveLeft  = speed
-#     driveRight = speed
-#     # Perform the motion
-#     print(driveLeft, driveRight)
-#     PerformMove(driveLeft, driveRight, time)
-
-
-def move_moters(client, userdata, message):
+def parse_move_command(client, userdata, message):
     command = json.loads(message.payload.decode())
     # Commmand Type: 1 = Rotate, 2 = Drive
     # Command Parameters: 
@@ -58,6 +48,7 @@ def move_moters(client, userdata, message):
         time = command[1][2]
         PerformMove(speed, speed, time)
     return True
+
 
 # Movement settings (worked out from our MonsterBorg on carpet tiles)
 timeForward1m = 0.85                    # Number of seconds needed to move about 1 meter
@@ -85,6 +76,6 @@ TB.Init()
 
 # Subscribe to request topic
 client.subscribe("motor_request", qos=0)
-client.message_callback_add("motor_request", move_moters)
+client.message_callback_add("motor_request", parse_move_command)
 
 client.loop_forever()
