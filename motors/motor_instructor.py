@@ -10,25 +10,25 @@ def main_callback(sender, data):
     command = None
 
     if is_key_pressed(mvKey_Up):
-        command = f"[2, [1, {MOVE_POWER}, 0.2]]"
+        command = [2, [1, MOVE_POWER, 0.2]]
         set_value("FORWAD key Pressed", "True")
     else:
         set_value("FORWAD key Pressed", "False")
 
     if is_key_pressed(mvKey_Down):
-        command = f"[2, [-1, {MOVE_POWER}, 0.2]]"
+        command = [2, [-1, MOVE_POWER, 0.2]]
         set_value("BACKWARD key Pressed", "True")
     else:
         set_value("BACKWARD key Pressed", "False")
 
     if is_key_pressed(mvKey_Left):
-        command = f"[1, [{TURN_STEP}]]"
+        command = [1, [TURN_STEP]]
         set_value("LEFT key Pressed", "True")
     else:
         set_value("LEFT key Pressed", "False")
 
     if is_key_pressed(mvKey_Right):
-        command = f"[1, [{-TURN_STEP}]]"
+        command = [1, [-TURN_STEP]]
         set_value("RIGHT key Pressed", "True")
     else:
         set_value("RIGHT key Pressed", "False")
@@ -36,7 +36,7 @@ def main_callback(sender, data):
     # Send command if one requested
     if command:
         print(command)
-        message = json.dumps(eval(command)).encode('utf-8')
+        message = json.dumps(command).encode('utf-8')
         client.publish(topic="motor_request", payload=message, qos=0, retain=False)
 
 
