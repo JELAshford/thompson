@@ -22,13 +22,13 @@ def main_callback(sender, data):
         set_value("BACKWARD key Pressed", "False")
 
     if is_key_pressed(mvKey_Left):
-        command = [1, [TURN_STEP]]
+        command = [1, [-TURN_STEP]]
         set_value("LEFT key Pressed", "True")
     else:
         set_value("LEFT key Pressed", "False")
 
     if is_key_pressed(mvKey_Right):
-        command = [1, [-TURN_STEP]]
+        command = [1, [TURN_STEP]]
         set_value("RIGHT key Pressed", "True")
     else:
         set_value("RIGHT key Pressed", "False")
@@ -40,7 +40,7 @@ def main_callback(sender, data):
         client.publish(topic="motor_request", payload=message, qos=0, retain=False)
 
 
-TURN_STEP = 10
+TURN_STEP = 20
 MOVE_POWER = 0.5
 
 # Connect to the broker
