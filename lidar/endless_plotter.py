@@ -30,6 +30,7 @@ def lidar_callback(client, userdata, message):
 
 
 def plot_callback(sender, data):
+    set_window_pos("Real-Time Scan Plot", x=0, y=0)
     # Plot current plot data
     plot_datax = get_data("plot_datax")
     plot_datay = get_data("plot_datay")
@@ -39,6 +40,17 @@ def plot_callback(sender, data):
         update_bounds=False
     )
 
+
+def save_buffer(sender, data):
+    """Save the current plot buffer data (plot_datax, plot_datay)"""
+    plot_datax = get_data("plot_datax")
+    plot_datay = get_data("plot_datay")
+    filename = get_value("Filename")
+    with open(f"{BUFFER_SAVE_PATH}/{filename}.json", "w") as json_file:
+        json.dump([plot_datax, plot_datay], json_file)
+
+
+BUFFER_SAVE_PATH = "/Users/jamesashford/Data Store/ThompsonData/lidar_scans"
 PLOT_BUFFER_SIZE = 400
 
 # Connect to the Brain client
@@ -50,13 +62,18 @@ client.connect(broker_url, broker_port)
 client.subscribe("lidar_stream", qos=0)
 client.message_callback_add("lidar_stream", lidar_callback)
 
-with window("Real-Time Scan Plot", width=800, height=800):
-    add_plot("Plot", equal_aspects=True, yaxis_invert=True, no_legend=True)
+with window("Real-Time Scan Plot", width=800, height=900):
+    add_plot("Plot", equal_aspects=True, yaxis_invert=True, no_legend=True, height=800)
     add_data("plot_datax", [])
     add_data("plot_datay", [])
+    add_separator()
+    add_button("Save Buffer", callback=save_buffer)
+    add_same_line()
+    add_input_text("Filename", default_value="test")
     set_render_callback(plot_callback)
 
 # Run the window and mqtt client loop
 client.loop_start()
+set_main_window_size(800, 900)
 start_dearpygui(primary_window="Real-Time Scan Plot")
 client.loop_stop()
