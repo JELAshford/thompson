@@ -54,7 +54,7 @@ BUFFER_SAVE_PATH = "/Users/jamesashford/Data Store/ThompsonData/lidar_scans"
 PLOT_BUFFER_SIZE = 400
 
 # Connect to the Brain client
-broker_url, broker_port = "172.20.10.11", 1883
+broker_url, broker_port = "192.168.1.230", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
