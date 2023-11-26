@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# coding: latin-1
+#!/usr/bin/env python3
+# coding: utf-8
 """
 This module is designed to communicate with the ThunderBorg
 
@@ -9,7 +9,7 @@ TB = ThunderBorg.ThunderBorg()
 TB.Init()
 # User code here, use TB to control the board
 
-Multiple boards can be used when configured with different I²C addresses by creating multiple instances, e.g.
+Multiple boards can be used when configured with different IÂ²C addresses by creating multiple instances, e.g.
 import ThunderBorg
 TB1 = ThunderBorg.ThunderBorg()
 TB2 = ThunderBorg.ThunderBorg()
@@ -31,6 +31,7 @@ import io
 import fcntl
 import types
 import time
+from sys import version_info
 
 # Constant values
 I2C_SLAVE                   = 0x0703
@@ -83,11 +84,11 @@ def ScanForThunderBorg(busNumber = 1):
     """
 ScanForThunderBorg([busNumber])
 
-Scans the I²C bus for a ThunderBorg boards and returns a list of all usable addresses
-The busNumber if supplied is which I²C bus to scan, 0 for Rev 1 boards, 1 for Rev 2 boards, if not supplied the default is 1
+Scans the IÂ²C bus for a ThunderBorg boards and returns a list of all usable addresses
+The busNumber if supplied is which IÂ²C bus to scan, 0 for Rev 1 boards, 1 for Rev 2 boards, if not supplied the default is 1
     """
     found = []
-    print 'Scanning I²C bus #%d' % (busNumber)
+    print('Scanning IÂ²C bus #%d' % (busNumber))
     bus = ThunderBorg()
     for address in range(0x03, 0x78, 1):
         try:
@@ -95,7 +96,7 @@ The busNumber if supplied is which I²C bus to scan, 0 for Rev 1 boards, 1 for Re
             i2cRecv = bus.RawRead(COMMAND_GET_ID, I2C_MAX_LEN)
             if len(i2cRecv) == I2C_MAX_LEN:
                 if i2cRecv[1] == I2C_ID_THUNDERBORG:
-                    print 'Found ThunderBorg at %02X' % (address)
+                    print('Found ThunderBorg at %02X' % (address))
                     found.append(address)
                 else:
                     pass
@@ -106,11 +107,11 @@ The busNumber if supplied is which I²C bus to scan, 0 for Rev 1 boards, 1 for Re
         except:
             pass
     if len(found) == 0:
-        print 'No ThunderBorg boards found, is bus #%d correct (should be 0 for Rev 1, 1 for Rev 2)' % (busNumber)
+        print('No ThunderBorg boards found, is bus #%d correct (should be 0 for Rev 1, 1 for Rev 2)' % (busNumber))
     elif len(found) == 1:
-        print '1 ThunderBorg board found'
+        print('1 ThunderBorg board found')
     else:
-        print '%d ThunderBorg boards found' % (len(found))
+        print('%d ThunderBorg boards found' % (len(found)))
     return found
 
 
@@ -118,25 +119,25 @@ def SetNewAddress(newAddress, oldAddress = -1, busNumber = 1):
     """
 SetNewAddress(newAddress, [oldAddress], [busNumber])
 
-Scans the I²C bus for the first ThunderBorg and sets it to a new I2C address
+Scans the IÂ²C bus for the first ThunderBorg and sets it to a new I2C address
 If oldAddress is supplied it will change the address of the board at that address rather than scanning the bus
-The busNumber if supplied is which I²C bus to scan, 0 for Rev 1 boards, 1 for Rev 2 boards, if not supplied the default is 1
-Warning, this new I²C address will still be used after resetting the power on the device
+The busNumber if supplied is which IÂ²C bus to scan, 0 for Rev 1 boards, 1 for Rev 2 boards, if not supplied the default is 1
+Warning, this new IÂ²C address will still be used after resetting the power on the device
     """
     if newAddress < 0x03:
-        print 'Error, I²C addresses below 3 (0x03) are reserved, use an address between 3 (0x03) and 119 (0x77)'
+        print('Error, IÂ²C addresses below 3 (0x03) are reserved, use an address between 3 (0x03) and 119 (0x77)')
         return
     elif newAddress > 0x77:
-        print 'Error, I²C addresses above 119 (0x77) are reserved, use an address between 3 (0x03) and 119 (0x77)'
+        print('Error, IÂ²C addresses above 119 (0x77) are reserved, use an address between 3 (0x03) and 119 (0x77)')
         return
     if oldAddress < 0x0:
         found = ScanForThunderBorg(busNumber)
         if len(found) < 1:
-            print 'No ThunderBorg boards found, cannot set a new I²C address!'
+            print('No ThunderBorg boards found, cannot set a new IÂ²C address!')
             return
         else:
             oldAddress = found[0]
-    print 'Changing I²C address from %02X to %02X (bus #%d)' % (oldAddress, newAddress, busNumber)
+    print('Changing IÂ²C address from %02X to %02X (bus #%d)' % (oldAddress, newAddress, busNumber))
     bus = ThunderBorg()
     bus.InitBusOnly(busNumber, oldAddress)
     try:
@@ -144,44 +145,44 @@ Warning, this new I²C address will still be used after resetting the power on th
         if len(i2cRecv) == I2C_MAX_LEN:
             if i2cRecv[1] == I2C_ID_THUNDERBORG:
                 foundChip = True
-                print 'Found ThunderBorg at %02X' % (oldAddress)
+                print('Found ThunderBorg at %02X' % (oldAddress))
             else:
                 foundChip = False
-                print 'Found a device at %02X, but it is not a ThunderBorg (ID %02X instead of %02X)' % (oldAddress, i2cRecv[1], I2C_ID_THUNDERBORG)
+                print('Found a device at %02X, but it is not a ThunderBorg (ID %02X instead of %02X)' % (oldAddress, i2cRecv[1], I2C_ID_THUNDERBORG))
         else:
             foundChip = False
-            print 'Missing ThunderBorg at %02X' % (oldAddress)
+            print('Missing ThunderBorg at %02X' % (oldAddress))
     except KeyboardInterrupt:
         raise
     except:
         foundChip = False
-        print 'Missing ThunderBorg at %02X' % (oldAddress)
+        print('Missing ThunderBorg at %02X' % (oldAddress))
     if foundChip:
         bus.RawWrite(COMMAND_SET_I2C_ADD, [newAddress])
         time.sleep(0.1)
-        print 'Address changed to %02X, attempting to talk with the new address' % (newAddress)
+        print('Address changed to %02X, attempting to talk with the new address' % (newAddress))
         try:
             bus.InitBusOnly(busNumber, newAddress)
             i2cRecv = bus.RawRead(COMMAND_GET_ID, I2C_MAX_LEN)
             if len(i2cRecv) == I2C_MAX_LEN:
                 if i2cRecv[1] == I2C_ID_THUNDERBORG:
                     foundChip = True
-                    print 'Found ThunderBorg at %02X' % (newAddress)
+                    print('Found ThunderBorg at %02X' % (newAddress))
                 else:
                     foundChip = False
-                    print 'Found a device at %02X, but it is not a ThunderBorg (ID %02X instead of %02X)' % (newAddress, i2cRecv[1], I2C_ID_THUNDERBORG)
+                    print('Found a device at %02X, but it is not a ThunderBorg (ID %02X instead of %02X)' % (newAddress, i2cRecv[1], I2C_ID_THUNDERBORG))
             else:
                 foundChip = False
-                print 'Missing ThunderBorg at %02X' % (newAddress)
+                print('Missing ThunderBorg at %02X' % (newAddress))
         except KeyboardInterrupt:
             raise
         except:
             foundChip = False
-            print 'Missing ThunderBorg at %02X' % (newAddress)
+            print('Missing ThunderBorg at %02X' % (newAddress))
     if foundChip:
-        print 'New I²C address of %02X set successfully' % (newAddress)
+        print('New IÂ²C address of %02X set successfully' % (newAddress))
     else:
-        print 'Failed to set new I²C address...'
+        print('Failed to set new IÂ²C address...')
 
 
 # Class used to control ThunderBorg
@@ -189,16 +190,16 @@ class ThunderBorg:
     """
 This module is designed to communicate with the ThunderBorg
 
-busNumber               I²C bus on which the ThunderBorg is attached (Rev 1 is bus 0, Rev 2 is bus 1)
-bus                     the smbus object used to talk to the I²C bus
-i2cAddress              The I²C address of the ThunderBorg chip to control
+busNumber               IÂ²C bus on which the ThunderBorg is attached (Rev 1 is bus 0, Rev 2 is bus 1)
+bus                     the smbus object used to talk to the IÂ²C bus
+i2cAddress              The IÂ²C address of the ThunderBorg chip to control
 foundChip               True if the ThunderBorg chip can be seen, False otherwise
 printFunction           Function reference to call when printing text, if None "print" is used
     """
 
     # Shared values used by this class
     busNumber               = 1                     # Check here for Rev 1 vs Rev 2 and select the correct bus
-    i2cAddress              = I2C_ID_THUNDERBORG    # I²C address, override for a different address
+    i2cAddress              = I2C_ID_THUNDERBORG    # IÂ²C address, override for a different address
     foundChip               = False
     printFunction           = None
     i2cWrite                = None
@@ -214,9 +215,16 @@ Command codes can be found at the top of ThunderBorg.py, data is a list of 0 or 
 
 Under most circumstances you should use the appropriate function instead of RawWrite
         """
-        rawOutput = chr(command)
-        for singleByte in data:
-            rawOutput += chr(singleByte)
+        if version_info[0] < 3:
+            # Python 2 uses the character string type for I2C data
+            rawOutput = chr(command)
+            for singleByte in data:
+                rawOutput += chr(singleByte)
+        else:
+            # Python 3 uses the bytes type for I2C data
+            rawOutput = [command]
+            rawOutput.extend(data)
+            rawOutput = bytes(rawOutput)
         self.i2cWrite.write(rawOutput)
 
 
@@ -237,7 +245,10 @@ Under most circumstances you should use the appropriate function instead of RawR
             rawReply = self.i2cRead.read(length)
             reply = []
             for singleByte in rawReply:
-                reply.append(ord(singleByte))
+                if version_info[0] < 3:
+                    # In Python 2 we need to convert the character to its numeric value
+                    singleByte = ord(singleByte)
+                reply.append(singleByte)
             if command == reply[0]:
                 break
             else:
@@ -267,10 +278,10 @@ This call does not check the board is present or working, under most circumstanc
         """
 Print(message)
 
-Wrapper used by the ThunderBorg instance to print messages, will call printFunction if set, print otherwise
+Wrapper used by the ThunderBorg instance to print(messages, will call printFunction if set, print otherwise)
         """
         if self.printFunction == None:
-            print message
+            print(message)
         else:
             self.printFunction(message)
 
@@ -901,8 +912,8 @@ Displays the names and descriptions of the various functions and settings provid
         funcList = [ThunderBorg.__dict__.get(a) for a in dir(ThunderBorg) if isinstance(ThunderBorg.__dict__.get(a), types.FunctionType)]
         funcListSorted = sorted(funcList, key = lambda x: x.func_code.co_firstlineno)
 
-        print self.__doc__
+        print(self.__doc__)
         print
         for func in funcListSorted:
-            print '=== %s === %s' % (func.func_name, func.func_doc)
+            print('=== %s === %s' % (func.func_name, func.func_doc))
 

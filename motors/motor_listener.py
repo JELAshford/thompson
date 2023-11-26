@@ -1,5 +1,5 @@
 # Read in pictures from the HQ camera and stream over the mqqt topics
-import ThunderBorg
+import ThunderBorg as ThunderBorg
 import time
 
 import paho.mqtt.client as mqtt
@@ -29,7 +29,7 @@ def PerformSpin(angle):
         driveLeft  = +1.0
         driveRight = -1.0
     # Calculate the required time delay
-    numSeconds = (angle / 360.0) * timeSpin360
+    numSeconds = (angle / 360.0)
     # Perform the motion
     PerformMove(driveLeft, driveRight, numSeconds)
 
@@ -55,7 +55,6 @@ def parse_move_command(client, userdata, message):
 
 # Movement settings (worked out from our MonsterBorg on carpet tiles)
 timeForward1m = 0.85                    # Number of seconds needed to move about 1 meter
-timeSpin360   = 1.2                    # Number of seconds needed to make a full left / right spin
 testMode = False                        # True to run the motion tests, False to run the normal sequence
 
 # Power settings
@@ -69,7 +68,7 @@ else:
     maxPower = voltageOut / float(voltageIn)
 
 # Connect to the Brain client
-broker_url, broker_port = "192.168.43.210", 1883
+broker_url, broker_port = "192.168.0.12", 1883
 client = mqtt.Client()
 client.connect(broker_url, broker_port)
 
@@ -82,3 +81,7 @@ client.subscribe("motor_request", qos=0)
 client.message_callback_add("motor_request", parse_move_command)
 
 client.loop_forever()
+
+
+# Copyable kill command
+# from motors import ThunderBorg; tb = ThunderBorg.ThunderBorg(); tb.Init(); tb.SetMotor1(0); tb.SetMotor2(0)
