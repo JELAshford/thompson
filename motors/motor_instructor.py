@@ -36,7 +36,7 @@ def main_callback(sender, data):
     # Send command if one requested
     if command:
         print(command)
-        message = json.dumps(command).encode('utf-8')
+        message = json.dumps(command).encode("utf-8")
         client.publish(topic="motor_request", payload=message, qos=0, retain=False)
 
 
@@ -54,7 +54,7 @@ with window("Move Interface"):
     add_label_text("LEFT key Pressed", default_value="False", color=[0, 200, 255])
     add_spacing()
     add_label_text("RIGHT key Pressed", default_value="False", color=[0, 200, 255])
-    add_spacing()    
+    add_spacing()
     add_label_text("FORWAD key Pressed", default_value="False", color=[0, 200, 255])
     add_spacing()
     add_label_text("BACKWARD key Pressed", default_value="False", color=[0, 200, 255])
@@ -64,4 +64,3 @@ set_render_callback(main_callback)
 client.loop_start()
 start_dearpygui(primary_window="Move Interface")
 client.loop_stop()
-
