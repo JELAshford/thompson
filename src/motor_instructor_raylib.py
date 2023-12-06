@@ -26,16 +26,16 @@ while not pr.window_should_close():
 
     commands = []
     if pr.is_key_down(pr.KeyboardKey.KEY_UP):
-        commands.append([2, [1, MOVE_POWER, 0.1]])
+        commands.append(["move", dict(direction=1, speed=MOVE_POWER, time=0.1)])
 
     if pr.is_key_down(pr.KeyboardKey.KEY_DOWN):
-        commands.append([2, [-1, MOVE_POWER, 0.1]])
+        commands.append(["move", dict(direction=-1, speed=MOVE_POWER, time=0.1)])
 
     if pr.is_key_down(pr.KeyboardKey.KEY_LEFT):
-        commands.append([1, [-TURN_STEP]])
+        commands.append(["spin", dict(angle=-TURN_STEP)])
 
     if pr.is_key_down(pr.KeyboardKey.KEY_RIGHT):
-        commands.append([1, [TURN_STEP]])
+        commands.append(["spin", dict(angle=TURN_STEP)])
 
     # Send command if provided
     if len(commands) != 0:
