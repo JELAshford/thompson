@@ -26,6 +26,6 @@ and use the `systemd` commands to locate and modify the `mosquitto` config files
 
 
 ## Future Work
-[ ] Cleanup ThunderBorg code
-[ ] Connect IMU and report status to interface
-[ ] Connect camera and stream image back to controller
+- [ ] Cleanup ThunderBorg code
+- [ ] Connect IMU and report status to interface
+- [ ] Connect camera and stream image back to controller
