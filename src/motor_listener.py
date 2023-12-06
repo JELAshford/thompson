@@ -1,71 +1,34 @@
 # Read in pictures from the HQ camera and stream over the mqqt topics
 import ThunderBorg as ThunderBorg
-import time
-
 import paho.mqtt.client as mqtt
 import json
+import time
 
 
-def PerformMove(driveLeft, driveRight, numSeconds):
-    print(driveRight * maxPower, driveLeft * maxPower)
-    # Set the motors running
-    TB.SetMotor1(driveRight * maxPower)
-    TB.SetMotor2(driveLeft * maxPower)
-    # Wait for the time
-    time.sleep(numSeconds)
-    # Turn the motors off
+def run_motors(drive_left: int, drive_right: int, run_time: float, max_power: float = 0.8):
+    TB.SetMotor1(drive_right * max_power)
+    TB.SetMotor2(drive_left * max_power)
+    time.sleep(run_time)
     TB.MotorsOff()
 
 
-# Function to spin an angle in degrees
-def PerformSpin(angle):
-    if angle < 0.0:
-        # Left turn
-        driveLeft  = -1.0
-        driveRight = +1.0
-        angle *= -1
-    else:
-        # Right turn
-        driveLeft  = +1.0
-        driveRight = -1.0
-    # Calculate the required time delay
-    numSeconds = (angle / 360.0)
-    # Perform the motion
-    PerformMove(driveLeft, driveRight, numSeconds)
+def move(direction: int, speed: float, time: float):
+    motor_speed = direction * speed
+    run_motors(motor_speed, motor_speed, time)
 
 
-def parse_move_command(client, userdata, message):
-    command = json.loads(message.payload.decode())
-    # Commmand Type: 1 = Rotate, 2 = Drive
-    # Command Parameters: 
-    #   1: Degrees                  [1, [90]]
-    #   2: Direction, Speed, Time   [2, [1, 10, 2]]
-    print(command)
-    if command[0] == 1:
-        print('Rotating!')
-        rotation = command[1][0]
-        PerformSpin(rotation)
-    elif command[0] == 2:
-        print('Moving!')
-        speed = command[1][0] * command[1][1]
-        time = command[1][2]
-        PerformMove(speed, speed, time)
-    return True
+def spin(angle: float):
+    rotate_time = abs(angle) / 360.0
+    motor_directions = (-1, 1) if angle < 0 else (1, -1)
+    run_motors(*motor_directions, rotate_time, max_power=0.5)
 
 
-# Movement settings (worked out from our MonsterBorg on carpet tiles)
-timeForward1m = 0.85                    # Number of seconds needed to move about 1 meter
-testMode = False                        # True to run the motion tests, False to run the normal sequence
+def process_motor_command(client, userdata, message):
+    """Read command from controller, and dispatch to function"""
+    command_store = {"move": move, "spin": spin}
+    command_name, parameters = json.loads(message.payload.decode())
+    command_store[command_name](**parameters)
 
-# Power settings
-voltageIn = 12.0                        # Total battery voltage to the ThunderBorg
-voltageOut = 12.0 * 0.95                # Maximum motor voltage, we limit it to 95% to allow the RPi to get uninterrupted power
-
-# Setup the power limits
-if voltageOut > voltageIn:
-    maxPower = 1.0
-else:
-    maxPower = voltageOut / float(voltageIn)
 
 # Connect to the Brain client
 broker_url, broker_port = "192.168.0.12", 1883
@@ -78,10 +41,8 @@ TB.Init()
 
 # Subscribe to request topic
 client.subscribe("motor_request", qos=0)
-client.message_callback_add("motor_request", parse_move_command)
-
+client.message_callback_add("motor_request", process_motor_command)
 client.loop_forever()
-
 
 # Copyable kill command
 # from motors import ThunderBorg; tb = ThunderBorg.ThunderBorg(); tb.Init(); tb.SetMotor1(0); tb.SetMotor2(0)
