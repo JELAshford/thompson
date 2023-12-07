@@ -1,15 +1,15 @@
 # Read in pictures from the HQ camera and stream over the mqqt topics
-import ThunderBorg as ThunderBorg
+import thunder_borg as ThunderBorg
 import paho.mqtt.client as mqtt
 import json
 import time
 
 
 def run_motors(drive_left: int, drive_right: int, run_time: float, max_power: float = 0.8):
-    TB.SetMotor1(drive_right * max_power)
-    TB.SetMotor2(drive_left * max_power)
+    TB.set_motor_power(1, drive_right * max_power)
+    TB.set_motor_power(2, drive_left * max_power)
     time.sleep(run_time)
-    TB.MotorsOff()
+    TB.motors_off()
 
 
 def move(direction: int, speed: float, time: float):
@@ -37,7 +37,6 @@ client.connect(broker_url, broker_port)
 
 # Create ThunderBorg
 TB = ThunderBorg.ThunderBorg()
-TB.Init()
 
 # Subscribe to request topic
 client.subscribe("motor_request", qos=0)
