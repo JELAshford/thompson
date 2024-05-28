@@ -4,7 +4,8 @@ import yaml
 import io
 
 
-config = yaml.load("thunderborg_config.yaml")
+with open("thunderborg_config.yaml") as stream:
+    config = yaml.safe_load(stream)
 
 
 def scan_for_thunder_borg(busNumber: int = 1):
