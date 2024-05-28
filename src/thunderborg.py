@@ -1,10 +1,11 @@
 # Control the ThunderBorg Board, updated for Python 3
+from pathlib import Path
 import fcntl
 import yaml
 import io
 
 
-with open("thunderborg_config.yaml") as stream:
+with open(Path(__file__).resolve().parent + "/thunderborg_config.yaml") as stream:
     config = yaml.safe_load(stream)
 
 
