@@ -1,5 +1,5 @@
 # Read in pictures from the HQ camera and stream over the mqqt topics
-import thunder_borg as ThunderBorg
+import thunderborg as ThunderBorg
 import paho.mqtt.client as mqtt
 import json
 import time
