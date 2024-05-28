@@ -98,11 +98,12 @@ class ThunderBorg:
         """Check for ThunderBorg chip"""
         self.foundChip = False
 
+        thunderborg_id = config["I2C_ID_THUNDERBORG"]
         i2cRecv = self.try_read(
             config["COMMAND_GET_ID"], fail_message=f"Missing ThunderBorg at {self.i2cAddress}"
         )
         device_responded = len(i2cRecv) == config["I2C_MAX_LEN"]
-        device_is_thunderborg = i2cRecv[1] == config["I2C_ID_THUNDERBORG"]
+        device_is_thunderborg = i2cRecv[1] == thunderborg_id
 
         if device_responded and device_is_thunderborg:
             self.foundChip = True
@@ -111,7 +112,7 @@ class ThunderBorg:
             )
         elif device_responded:
             print(
-                f"Found a device at {self.i2cAddress}, but it is not a ThunderBorg (ID {i2cRecv[1]} instead of {config["I2C_ID_THUNDERBORG"]})"
+                f"Found a device at {self.i2cAddress}, but it is not a ThunderBorg (ID {i2cRecv[1]} instead of {thunderborg_id})"
             )
         else:
             print(f"Missing ThunderBorg at {self.i2cAddress}")
