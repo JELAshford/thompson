@@ -5,7 +5,8 @@ import yaml
 import io
 
 
-with open(Path(__file__).resolve().parent + "/thunderborg_config.yaml") as stream:
+parent_dir = str(Path(__file__).resolve().parent)
+with open(f"{parent_dir}/thunderborg_config.yaml") as stream:
     config = yaml.safe_load(stream)
 
 
