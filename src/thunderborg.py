@@ -37,8 +37,8 @@ class ThunderBorg:
         self, bus_number=1, i2cAddress=PARAMS["I2C_ID_THUNDERBORG"], check_chip=True
     ):
         self.foundChip = False
-        self.i2cWrite = io.FileIO("", mode="w")
-        self.i2cRead = io.FileIO("", mode="r")
+        self.i2cWrite = io.FileIO("/dev/null", mode="w")
+        self.i2cRead = io.FileIO("/dev/null", mode="r")
 
         self.busNumber = bus_number
         self.i2cAddress = i2cAddress
