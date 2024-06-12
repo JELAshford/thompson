@@ -21,8 +21,8 @@ command_text = None
 
 while not pr.window_should_close():
     pr.begin_drawing()
-    pr.clear_background(pr.BLACK)
-    pr.draw_text("Interface! Yay!", 0, 10, 12, pr.RED)
+    pr.clear_background(pr.Color(*pr.BLACK))
+    pr.draw_text("Interface! Yay!", 0, 10, 12, pr.Color(*pr.RED))
 
     commands = []
     if pr.is_key_down(pr.KeyboardKey.KEY_UP):
@@ -55,7 +55,7 @@ while not pr.window_should_close():
         if time_since_last_command < command_text_lifetime
         else ",".join([*map(str, commands)])
     )
-    pr.draw_text(f"Command: {command_text}", 0, 25, 15, pr.WHITE)
+    pr.draw_text(f"Command: {command_text}", 0, 25, 15, pr.Color(*pr.WHITE))
     pr.end_drawing()
 pr.close_window()
 
