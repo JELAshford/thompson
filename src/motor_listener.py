@@ -6,7 +6,7 @@ import time
 
 
 def run_motors(
-    drive_left: int, drive_right: int, run_time: float, max_power: float = 0.8
+    drive_left: float, drive_right: float, run_time: float, max_power: float = 0.8
 ):
     TB.set_motor_power(1, drive_right * max_power)
     TB.set_motor_power(2, drive_left * max_power)
@@ -15,7 +15,7 @@ def run_motors(
 
 
 def move(direction: int, speed: float, time: float):
-    motor_speed = int(direction * speed)
+    motor_speed = direction * speed
     run_motors(motor_speed, motor_speed, time)
 
 
