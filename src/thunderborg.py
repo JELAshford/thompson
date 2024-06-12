@@ -33,11 +33,12 @@ def scan_for_thunder_borg(busNumber: int = 1):
 
 
 class ThunderBorg:
-
-    def __init__(self, bus_number=1, i2cAddress=PARAMS["I2C_ID_THUNDERBORG"], check_chip=True):
+    def __init__(
+        self, bus_number=1, i2cAddress=PARAMS["I2C_ID_THUNDERBORG"], check_chip=True
+    ):
         self.foundChip = False
-        self.i2cWrite = None
-        self.i2cRead = None
+        self.i2cWrite = io.FileIO("", mode="w")
+        self.i2cRead = io.FileIO("", mode="r")
 
         self.busNumber = bus_number
         self.i2cAddress = i2cAddress
@@ -167,7 +168,11 @@ class ThunderBorg:
 
     def set_led(self, led: int = 1, rgb=(0.0, 0.0, 0.0)):
         """Sets the current colour of the ThunderBorg LED. r, g, b may each be between 0 and 1"""
-        commands = {0: COMMANDS["SET_LEDS"], 1: COMMANDS["SET_LED1"], 2: COMMANDS["SET_LED2"]}
+        commands = {
+            0: COMMANDS["SET_LEDS"],
+            1: COMMANDS["SET_LED1"],
+            2: COMMANDS["SET_LED2"],
+        }
         r, g, b = rgb
         levelR = max(0, min(PARAMS["PWM_MAX"], int(r * PARAMS["PWM_MAX"])))
         levelG = max(0, min(PARAMS["PWM_MAX"], int(g * PARAMS["PWM_MAX"])))
